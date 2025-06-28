@@ -443,7 +443,7 @@ function App() {
             </a>
           </div>
           <p className="text-slate-500">
-            © Supervisor AI, 2024
+            © Supervisor AI, 2025
           </p>
         </div>
       </footer>
