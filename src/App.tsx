@@ -5,14 +5,16 @@ import conceptualizationImg from './assets/conceptualization.png';
 import transcriptImg from './assets/transcript.png';
 
 function App() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [openFaqs, setOpenFaqs] = useState<number[]>([]);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
   const toggleFaq = (index: number) => {
-    setOpenFaq(openFaq === index ? null : index);
+    setOpenFaqs(prev =>
+      prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
+    );
   };
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -29,7 +31,7 @@ function App() {
 
       setSubmitMessage('Спасибо! Мы свяжемся с вами в ближайшее время.');
       setEmail('');
-    } catch (error) {
+    } catch {
       setSubmitMessage('Произошла ошибка. Попробуйте еще раз.');
     } finally {
       setIsSubmitting(false);
@@ -426,7 +428,7 @@ function App() {
 
           <div className="space-y-4">
             {faqData.map((faq, index) => (
-              <Accordion key={index} question={faq.question} answer={faq.answer} isOpen={openFaq === index} onClick={() => toggleFaq(index)} />
+              <Accordion key={index} question={faq.question} answer={faq.answer} isOpen={openFaqs.includes(index)} onClick={() => toggleFaq(index)} />
             ))}
           </div>
         </div>
