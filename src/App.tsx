@@ -22,16 +22,22 @@ function App() {
     setIsSubmitting(true);
     setSubmitMessage('');
 
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzSAcZLgKNlM6KDPNmvbriztenTnujubbmR6j4ddDWaR4yZXCECQsPmDIue-KzH-aHd/exec';
+    const formData = new FormData();
+    formData.append('email', email);
+
     try {
-      // Simulate API call - replace with actual endpoint
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await fetch(scriptURL, { method: 'POST', body: formData });
 
-      // Here you would typically send the email to your backend
-      console.log('Email submitted:', email);
-
-      setSubmitMessage('Спасибо! Мы свяжемся с вами в ближайшее время.');
-      setEmail('');
-    } catch {
+      if (response.ok) {
+        setSubmitMessage('Спасибо! Мы свяжемся с вами в ближайшее время.');
+        setEmail('');
+      } else {
+        console.error('Error from Google Script:', response);
+        setSubmitMessage('Произошла ошибка. Попробуйте еще раз.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
       setSubmitMessage('Произошла ошибка. Попробуйте еще раз.');
     } finally {
       setIsSubmitting(false);
