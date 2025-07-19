@@ -7,7 +7,7 @@ import transcriptImg from './assets/transcript.png';
 function App() {
   const [openFaqs, setOpenFaqs] = useState<number[]>([]);
   const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
@@ -19,7 +19,7 @@ function App() {
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setSubmissionStatus('submitting');
     setSubmitMessage('');
 
     const scriptURL = 'https://script.google.com/macros/s/AKfycbzSAcZLgKNlM6KDPNmvbriztenTnujubbmR6j4ddDWaR4yZXCECQsPmDIue-KzH-aHd/exec';
@@ -32,15 +32,16 @@ function App() {
       if (response.ok) {
         setSubmitMessage('Спасибо! Мы свяжемся с вами в ближайшее время.');
         setEmail('');
+        setSubmissionStatus('success');
       } else {
         console.error('Error from Google Script:', response);
         setSubmitMessage('Произошла ошибка. Попробуйте еще раз.');
+        setSubmissionStatus('error');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitMessage('Произошла ошибка. Попробуйте еще раз.');
-    } finally {
-      setIsSubmitting(false);
+      setSubmissionStatus('error');
     }
   };
 
@@ -459,32 +460,43 @@ function App() {
 
       {/* Sticky Bottom CTA Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <form onSubmit={handleEmailSubmit} className="flex gap-4">
-            <div className="flex-grow">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Введите ваш email"
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-                disabled={isSubmitting}
-              />
+        <div className="max-w-4xl mx-auto px-4 h-24 flex items-center">
+          {submissionStatus === 'success' ? (
+            <div className="w-full text-center">
+              <p className="text-lg text-teal-600 font-semibold">{submitMessage}</p>
             </div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center gap-2 whitespace-nowrap"
-            >
-              <Mail className="w-5 h-5" />
-              {isSubmitting ? 'Отправка...' : 'получить супервизию'}
-            </button>
-          </form>
-          {submitMessage && (
-            <div className={`mt-2 text-sm ${submitMessage.includes('Спасибо') ? 'text-green-600' : 'text-red-600'}`}>
-              {submitMessage}
+          ) : submissionStatus === 'error' ? (
+            <div className="w-full flex justify-between items-center gap-4">
+              <p className="text-red-600">{submitMessage}</p>
+              <button
+                onClick={() => setSubmissionStatus('idle')}
+                className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 whitespace-nowrap"
+              >
+                Попробовать снова
+              </button>
             </div>
+          ) : (
+            <form onSubmit={handleEmailSubmit} className="flex gap-4 w-full">
+              <div className="flex-grow">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Введите ваш email"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                      disabled={submissionStatus === 'submitting'}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={submissionStatus === 'submitting'}
+                    className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center gap-2 whitespace-nowrap"
+                  >
+                    <Mail className="w-5 h-5" />
+                    {submissionStatus === 'submitting' ? 'Отправка...' : 'получить супервизию'}
+                  </button>
+                </form>
           )}
         </div>
       </div>
