@@ -9,6 +9,7 @@ function App() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -291,10 +292,10 @@ function App() {
 
           {howItWorks.map((item, index) => (
             <div key={index} className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-12 mb-16 last:mb-0`}>
-              <div className="lg:w-1/2">
-                <div className="bg-slate-100 border-2 border-dashed border-slate-300 rounded-xl p-4 flex flex-col items-center justify-center text-center">
-                  <img src={item.image} alt={item.title} className="rounded-lg shadow-md" />
-                </div>
+              <div className="lg:w-1/2 flex justify-center">
+                <button onClick={() => setExpandedImage(item.image)} className="focus:outline-none">
+                  <img src={item.image} alt={item.title} className="rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.1)] cursor-pointer hover:opacity-90 transition-opacity" />
+                </button>
               </div>
               <div className="lg:w-1/2">
                 <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">
@@ -479,6 +480,28 @@ function App() {
           )}
         </div>
       </div>
+
+      {/* Image Modal */}
+      {expandedImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-[100] p-4 cursor-zoom-out"
+          onClick={() => setExpandedImage(null)}
+        >
+          <img
+            src={expandedImage}
+            alt="Expanded view"
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl cursor-pointer"
+            onClick={() => setExpandedImage(null)}
+          />
+          <button
+            onClick={() => setExpandedImage(null)}
+            className="absolute top-4 right-4 text-white text-5xl font-bold leading-none hover:text-slate-300 focus:outline-none"
+            aria-label="Close image view"
+          >
+            &times;
+          </button>
+        </div>
+      )}
     </div>
   );
 }
