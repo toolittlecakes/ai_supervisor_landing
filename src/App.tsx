@@ -176,12 +176,12 @@ function App() {
 
   const Accordion = ({ question, answer, isOpen, onClick }: { question: string, answer: string, isOpen: boolean, onClick: () => void }) => {
     return (
-      <div className="border border-slate-200 rounded-lg">
+      <div className="border border-slate-200 rounded-lg hover:border-slate-300 hover:shadow-sm transition-all duration-200 overflow-hidden">
         <button onClick={onClick} className="w-full flex justify-between items-center p-5 text-left font-semibold text-slate-800 focus:outline-none">
           <span>{question}</span>
-          <ChevronUp className={`w-5 h-5 text-slate-500 transform transition-transform ${isOpen ? '' : 'rotate-180'}`} />
+          <ChevronUp className={`w-5 h-5 text-slate-500 transform transition-transform duration-300 ${isOpen ? '' : 'rotate-180'}`} />
         </button>
-        {isOpen && (
+        <div className={`transition-all duration-500 ease-in-out ${isOpen ? 'max-h-screen' : 'max-h-0'} overflow-hidden`}>
           <div className="p-5 pt-0">
             <div className="text-slate-600 leading-relaxed">
               {answer.includes('\n')
@@ -194,7 +194,7 @@ function App() {
               }
             </div>
           </div>
-        )}
+        </div>
       </div>
     );
   };
@@ -224,7 +224,7 @@ function App() {
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {painPoints.map((point, index) => (
-              <div key={index} className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-300">
+              <div key={index} className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 hover:shadow-md hover:-translate-y-1 transition-all duration-300 will-change-transform">
                 <h3 className="text-xl font-bold text-slate-900 mb-4 leading-tight">
                   {point.title}
                 </h3>
@@ -273,7 +273,7 @@ function App() {
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-center bg-white p-6 rounded-lg shadow-sm">
+              <div key={index} className="flex items-center bg-white p-6 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-default will-change-transform">
                 <CheckCircle className="w-6 h-6 text-teal-600 mr-4 flex-shrink-0" />
                 <span className="text-lg text-slate-700">{feature}</span>
               </div>
@@ -295,8 +295,8 @@ function App() {
           {howItWorks.map((item, index) => (
             <div key={index} className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-12 mb-16 last:mb-0`}>
               <div className="lg:w-1/2 flex justify-center">
-                <button onClick={() => setExpandedImage(item.image)} className="focus:outline-none">
-                  <img src={item.image} alt={item.title} className="rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.1)] cursor-pointer hover:opacity-90 transition-opacity" />
+                <button onClick={() => setExpandedImage(item.image)} className="focus:outline-none group transition-transform duration-300 hover:scale-105">
+                  <img src={item.image} alt={item.title} className="rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.1)] cursor-pointer group-hover:opacity-90 transition-opacity" />
                 </button>
               </div>
               <div className="lg:w-1/2">
@@ -341,7 +341,7 @@ function App() {
       <section className="py-16 px-4 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12">
-            <div className="bg-white p-8 rounded-xl shadow-sm">
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 will-change-transform">
               <div className="flex items-center mb-6">
                 <Users className="w-8 h-8 text-blue-600 mr-3" />
                 <h3 className="text-2xl font-bold text-slate-900">
@@ -355,7 +355,7 @@ function App() {
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-xl shadow-sm">
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 will-change-transform">
               <div className="flex items-center mb-6">
                 <BarChart3 className="w-8 h-8 text-blue-600 mr-3" />
                 <h3 className="text-2xl font-bold text-slate-900">
@@ -401,7 +401,7 @@ function App() {
 
           <div className="grid lg:grid-cols-2 gap-8">
             {personas.map((persona, index) => (
-              <div key={index} className="bg-white p-8 rounded-xl shadow-sm">
+              <div key={index} className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 will-change-transform">
                 <h3 className="text-xl font-bold text-slate-900 mb-6 leading-tight">
                   {persona.title}
                 </h3>
