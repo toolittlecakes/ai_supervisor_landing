@@ -5,7 +5,4 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   base: "/ai_supervisor_landing/",
   plugins: [react()],
-  optimizeDeps: {
-    exclude: ['lucide-react'],
-  },
 });
