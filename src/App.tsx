@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 // --- ASSET IMPORTS ---
 import analysisImg from './assets/analysis.png';
 import conceptualizationImg from './assets/conceptualization.png';
+import therapistDashboardImg from './assets/therapist_dashboard.png';
 import transcriptImg from './assets/transcript.png';
 
 
@@ -438,36 +439,51 @@ const HowItWorksSection = () => {
   );
 };
 
-const AdditionalToolsSection = () => (
-  <section className="py-16 px-4 bg-slate-50">
-    <div className="max-w-6xl mx-auto">
-      <div className="grid lg:grid-cols-2 gap-12">
-        <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 will-change-transform">
-          <div className="flex items-center mb-6">
-            <Users className="w-8 h-8 text-blue-600 mr-3" />
-            <h3 className="text-2xl font-bold text-slate-900">
-              Умная папка под каждого клиента
-            </h3>
+const AdditionalToolsSection = () => {
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
+
+  return (
+    <>
+      <section className="py-16 px-4 bg-slate-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 mb-12">
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 will-change-transform">
+              <div className="flex items-center mb-6">
+                <Users className="w-8 h-8 text-blue-600 mr-3" />
+                <h3 className="text-2xl font-bold text-slate-900">
+                  Умная папка под каждого клиента
+                </h3>
+              </div>
+              <p className="text-slate-600 leading-relaxed">
+                У каждого клиента — свой «профиль»: сессии, концептуализация, план терапии и заметки. Отдельная вкладка хранит цели и стратегию терапии — с возможностью отмечать прогресс. Есть и «карточка клиента» — место для важной информации, которую вы хотите держать под рукой. Всё в одном месте — не нужно листать тетради и искать прошлые заметки.
+              </p>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 will-change-transform">
+              <div className="flex items-center mb-6">
+                <BarChart3 className="w-8 h-8 text-blue-600 mr-3" />
+                <h3 className="text-2xl font-bold text-slate-900">
+                  Дашборд ваших навыков
+                </h3>
+              </div>
+              <p className="text-slate-600 leading-relaxed">
+                Отдельный раздел, где собирается аналитика по вашей работе. Здесь видны ваши сильные стороны и зоны роста по ключевым навыкам. Можно отслеживать прогресс: как меняется уровень навыков со временем. Это помогает осознанно развиваться и видеть, где вы реально растёте.
+              </p>
+            </div>
           </div>
-          <p className="text-slate-600 leading-relaxed">
-            У каждого клиента — свой «профиль»: сессии, концептуализация, план терапии и заметки. Отдельная вкладка хранит цели и стратегию терапии — с возможностью отмечать прогресс. Есть и «карточка клиента» — место для важной информации, которую вы хотите держать под рукой. Всё в одном месте — не нужно листать тетради и искать прошлые заметки.
-          </p>
-        </div>
-        <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 will-change-transform">
-          <div className="flex items-center mb-6">
-            <BarChart3 className="w-8 h-8 text-blue-600 mr-3" />
-            <h3 className="text-2xl font-bold text-slate-900">
-              Дашборд ваших навыков
-            </h3>
+          <div className="flex justify-center">
+            <button
+              onClick={() => setExpandedImage(therapistDashboardImg)}
+              className="focus:outline-none group transition-transform duration-300 hover:scale-105 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4"
+            >
+              <img src={therapistDashboardImg} alt="Дашборд с аналитикой по навыкам терапевта" className="rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity" />
+            </button>
           </div>
-          <p className="text-slate-600 leading-relaxed">
-            Отдельный раздел, где собирается аналитика по вашей работе. Здесь видны ваши сильные стороны и зоны роста по ключевым навыкам. Можно отслеживать прогресс: как меняется уровень навыков со временем. Это помогает осознанно развиваться и видеть, где вы реально растёте.
-          </p>
         </div>
-      </div>
-    </div>
-  </section>
-);
+      </section>
+      <ImageModal src={expandedImage} onClose={() => setExpandedImage(null)} />
+    </>
+  );
+};
 
 const ConfidentialitySection = () => (
   <section className="py-16 px-4">
