@@ -1,12 +1,10 @@
 import { BarChart3, Brain, CheckCircle, ChevronUp, FileText, Mail, Shield, Users } from 'lucide-react';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 
 // --- ASSET IMPORTS ---
-// In a real project, these would be in your assets folder.
-// For this example, we'll use placeholder strings.
-const analysisImg = './assets/analysis.png';
-const conceptualizationImg = './assets/conceptualization.png';
-const transcriptImg = './assets/transcript.png';
+import analysisImg from './assets/analysis.png';
+import conceptualizationImg from './assets/conceptualization.png';
+import transcriptImg from './assets/transcript.png';
 
 
 // ============================================================================
