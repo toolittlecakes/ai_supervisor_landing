@@ -402,7 +402,7 @@ const HowItWorksSection = () => {
 
           {content.howItWorks.map((item, index) => (
             <div key={item.id} className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-12 mb-16 last:mb-0`}>
-              <div className="lg:w-1/2 flex justify-center">
+              <div className="lg:w-1/2 flex justify-center order-2 lg:order-none">
                 <button
                   onClick={() => setExpandedImage(item.image)}
                   className="focus:outline-none group transition-transform duration-300 hover:scale-105 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4"
@@ -410,7 +410,7 @@ const HowItWorksSection = () => {
                   <img src={item.image} alt={item.title} className="rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity" />
                 </button>
               </div>
-              <div className="lg:w-1/2">
+              <div className="lg:w-1/2 order-1 lg:order-none">
                 <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">
                   {item.title}
                 </h3>
