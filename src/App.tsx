@@ -232,9 +232,8 @@ const ImageModal: React.FC<ImageModalProps> = ({ src, onClose }) => {
       <img
         src={src}
         alt="Expanded view"
-        className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-        // Stop propagation to prevent closing modal when clicking on the image itself
-        onClick={(e) => e.stopPropagation()}
+        className="max-w-full max-h-full object-contain rounded-lg shadow-2xl cursor-pointer"
+        onClick={onClose}
       />
       <button
         onClick={onClose}
