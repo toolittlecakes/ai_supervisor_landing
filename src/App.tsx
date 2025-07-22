@@ -1,6 +1,6 @@
 import { BarChart3, Brain, CheckCircle, ChevronUp, FileText, Mail, Shield, Users } from 'lucide-react';
 import React, { useState } from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes, Link } from 'react-router-dom';
 
 // --- ASSET IMPORTS ---
 import analysisImg from './assets/analysis.png';
@@ -577,13 +577,10 @@ const FaqSection = () => {
 const PageFooter = () => (
   <footer className="py-8 px-4 bg-slate-100 border-t border-slate-200">
     <div className="max-w-4xl mx-auto text-center">
-      <div className="space-x-6 mb-4">
-        <a href="/privacy-policy" className="text-slate-600 hover:text-slate-900 transition-colors">
+      <div className="mb-4">
+        <Link to="/privacy-policy" className="text-slate-600 hover:text-slate-900 transition-colors">
           Политика конфиденциальности
-        </a>
-        <a href="/terms-of-service" className="text-slate-600 hover:text-slate-900 transition-colors">
-          Пользовательское соглашение
-        </a>
+        </Link>
       </div>
       <p className="text-slate-500">
         © Supervisor AI, 2025
