@@ -1,5 +1,6 @@
 import { BarChart3, Brain, CheckCircle, ChevronUp, FileText, Mail, Shield, Users } from 'lucide-react';
 import React, { useState } from 'react';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 // --- ASSET IMPORTS ---
 import analysisImg from './assets/analysis.png';
@@ -7,6 +8,8 @@ import conceptualizationImg from './assets/conceptualization.png';
 import therapistDashboardImg from './assets/therapist_dashboard.png';
 import transcriptImg from './assets/transcript.png';
 
+// --- COMPONENT IMPORTS ---
+import PrivacyPolicy from './components/PrivacyPolicy';
 
 // ============================================================================
 // --- DATA: Separated Content (Would be in a file like `src/data/content.ts`) ---
@@ -725,7 +728,8 @@ const StickyCtaBar = () => {
 // --- MAIN APP COMPONENT ---
 // ============================================================================
 
-function App() {
+// Move the main landing page content to a separate component
+const LandingPage = () => {
   return (
     // Add padding to the bottom to prevent content from being hidden by the sticky CTA bar
     <div className="min-h-screen bg-white pb-32">
@@ -741,6 +745,17 @@ function App() {
       <PageFooter />
       <StickyCtaBar />
     </div>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      </Routes>
+    </Router>
   );
 }
 
