@@ -1,6 +1,6 @@
 import { BarChart3, Brain, CheckCircle, ChevronUp, FileText, Mail, Shield, Users } from 'lucide-react';
 import React, { useState } from 'react';
-import { Route, BrowserRouter as Router, Routes, Link } from 'react-router-dom';
+import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 // --- ASSET IMPORTS ---
 import analysisImg from './assets/analysis.png';
@@ -628,7 +628,7 @@ const StickyCtaBar = () => {
                 <div>
                   <h3 className="text-lg font-semibold text-slate-800 mb-2">Закрытое тестирование</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    Мы пока не готовы принять больше новых пользователей. Можем сохранить ваш email и написать, как только снова откроем доступ.
+                    Сейчас мы закрыли доступ, чтобы подготовиться к следующей волне тестирования. Если вам интересно — оставьте почту, и мы напишем, как только снова откроем доступ.
                   </p>
                 </div>
               </div>
@@ -711,7 +711,7 @@ const StickyCtaBar = () => {
               className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap w-full sm:w-auto"
             >
               <Mail className="w-5 h-5" />
-              {status === 'submitting' ? 'Отправка...' : 'получить супервизию'}
+              {status === 'submitting' ? 'Отправка...' : 'Получить ранний доступ'}
             </button>
           </form>
         )}
