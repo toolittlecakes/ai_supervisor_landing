@@ -114,7 +114,7 @@ const content: Content = {
       features: [
         { text: "Отслеживает, как меняется состояние клиента от встречи к встрече", icon: "TrendingUp" },
         { text: "Выявляет паттерны: что повторяется, где происходят сдвиги, а где застой", icon: "Zap" },
-        { text: "Автоматически обновляет концептуализацию, складывая всё в единую картину", icon: "BrainCircuit" }
+        { text: "Автоматически обновляет концептуализацию, формируя единую картину", icon: "BrainCircuit" }
       ],
       image: conceptualizationImg
     }
@@ -528,12 +528,12 @@ const HowItWorksSection = () => {
                 {item.features && (
                   <div className="grid md:grid-cols-3 gap-x-8 gap-y-6 max-w-5xl mx-auto">
                     {item.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-start text-left gap-4">
+                      <div key={featureIndex} className="flex items-center text-left gap-4">
                         <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                           {detailIcons[feature.icon]}
                         </div>
                         <div>
-                          <p className="text-slate-700 font-medium leading-relaxed pt-2 text-lg">{feature.text}</p>
+                          <p className="text-slate-700 font-medium leading-relaxed text-lg">{feature.text}</p>
                         </div>
                       </div>
                     ))}
