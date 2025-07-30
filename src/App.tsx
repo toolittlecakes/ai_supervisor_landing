@@ -54,7 +54,7 @@ const content = {
       details: [
         "О клиенте: формулировка проблемы, ключевые темы, динамика эмоций во время встречи",
         "О сессии: баланс речи терапевт/клиент, качество рабочего альянса, использованные техники, какое домашнее задание было дано и как оно связано с целями терапии",
-        "О ваших навыках: фидбек по шкалам CTSR и STCS, что получилось хорошо, где есть зоны роста, и конкретные рекомендации на следующую сессию"
+        "О ваших навыках: обратная связь по шкалам CTSR и STCS, что получилось хорошо, где есть зоны роста, и конкретные рекомендации на следующую сессию"
       ],
       conclusion: "Все это — через 5 минут после завершения встречи, пока впечатления еще свежие.",
       icon: <BarChart3 className="w-16 h-16 text-blue-600" />,
@@ -153,7 +153,7 @@ const content = {
     {
       id: 9,
       question: "Какие программы для онлайн-звонков поддерживаются?",
-      answer: "Приложение будет автоматически детектить и предлагать запись звонков в популярных сервисах, таких как Zoom, Google Meet, Microsoft Teams и Telegram (десктопная версия)."
+      answer: "Приложение будет автоматически обнаруживать и предлагать запись звонков в популярных сервисах, таких как Zoom, Google Meet, Microsoft Teams и Telegram (десктопная версия)."
     }
   ],
 };
@@ -344,7 +344,7 @@ const HeroSection = () => {
           Профессиональная супервизия после каждой сессии
         </h2>
         <p className="text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto mb-12">
-          ИИ-супервизор записывает онлайн-сессию и выдает анализ клиента, саммари встречи и фидбек по навыкам — чтобы вы лучше понимали кейс и профессионально росли после каждой сессии
+          ИИ-супервизор записывает онлайн-сессию и выдает анализ клиента, расшифровку встречи и обратную связь по навыкам — чтобы вы лучше понимали кейс и профессионально росли после каждой сессии
         </p>
         <div className="relative mx-auto w-full max-w-5xl cursor-pointer" onClick={togglePlay}>
           <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-blue-400 to-teal-400 opacity-25 blur-2xl"></div>
@@ -486,7 +486,7 @@ const AdditionalToolsSection = () => {
               <div className="flex items-center mb-6">
                 <BarChart3 className="w-8 h-8 text-blue-600 mr-3" />
                 <h3 className="text-2xl font-bold text-slate-900">
-                  Дашборд ваших навыков
+                  Аналитика ваших навыков
                 </h3>
               </div>
               <p className="text-slate-600 leading-relaxed">
@@ -499,7 +499,7 @@ const AdditionalToolsSection = () => {
               onClick={() => setExpandedImage(therapistDashboardImg)}
               className="focus:outline-none group transition-transform duration-300 hover:scale-105 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4"
             >
-              <img src={therapistDashboardImg} alt="Дашборд с аналитикой по навыкам терапевта" className="rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity" />
+              <img src={therapistDashboardImg} alt="Панель с аналитикой по навыкам терапевта" className="rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity" />
             </button>
           </div>
         </div>
