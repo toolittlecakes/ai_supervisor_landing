@@ -545,7 +545,7 @@ const HowItWorksSection = () => {
                     onClick={() => setExpandedImage(item.image)}
                     className="focus:outline-none group transition-transform duration-300 hover:scale-105 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4 inline-block"
                   >
-                    <img src={item.image} alt={item.title} className={`rounded-lg shadow-[0_0_40px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity max-w-4xl mx-auto ${item.id === 1 ? 'max-w-2xl' : ''}`} />
+                    <img src={item.image} alt={item.title} className={`w-full rounded-lg shadow-[0_0_40px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity max-w-4xl mx-auto ${item.id === 1 ? 'max-w-2xl' : ''}`} />
                   </button>
                 </div>
 
@@ -586,7 +586,7 @@ const AdditionalToolsSection = () => {
               onClick={() => setExpandedImage(therapistDashboardImg)}
               className="focus:outline-none group transition-transform duration-300 hover:scale-105 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4"
             >
-              <img src={therapistDashboardImg} alt="Панель с аналитикой по навыкам терапевта" className="rounded-lg shadow-[0_0_40px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity" />
+              <img src={therapistDashboardImg} alt="Панель с аналитикой по навыкам терапевта" className="w-full rounded-lg shadow-[0_0_40px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity" />
             </button>
           </div>
         </div>
