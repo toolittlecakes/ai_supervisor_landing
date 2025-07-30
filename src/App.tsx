@@ -1,10 +1,11 @@
-import { BarChart3, Brain, CheckCircle, ChevronUp, FileText, Mail, Shield, Users } from 'lucide-react';
-import React, { useState } from 'react';
+import { BarChart3, Brain, CheckCircle, ChevronUp, FileText, Mail, Play, Shield, Users } from 'lucide-react';
+import React, { useRef, useState } from 'react';
 import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 // --- ASSET IMPORTS ---
 import analysisImg from './assets/analysis.png';
 import conceptualizationImg from './assets/conceptualization.png';
+import recordingVideo from './assets/recording.mp4';
 import therapistDashboardImg from './assets/therapist_dashboard.png';
 import transcriptImg from './assets/transcript.png';
 
@@ -19,30 +20,24 @@ const content = {
   painPoints: [
     {
       id: 1,
-      title: "«Хороший супервизор — это дорого»",
-      text: "Вопросы и сомнения по клиентам накапливаются каждый день, но на качественную супервизию нет возможности ходить чаще 1-2 раза в месяц. Часто супервизия стоит больше, чем твоя сессия."
+      title: "Подготовка к супервизии отнимает часы, а не минуты",
+      text: "Чтобы качественно представить кейс, нужно переслушать запись, выписать ключевые моменты и составить концептуализацию. Это часы работы, которые можно было бы потратить на анализ, а не на подготовку."
     },
     {
       id: 2,
-      title: "«Подготовка к супервизии забирает много сил»",
-      text: "Чтобы хорошо подготовиться к супервизии, на концептуализацию кейса уходит несколько часов. Если прийти без подготовки — половина супервизии тратится на пересказ кейса вместо его разбора."
+      title: "Супервизор видит сессию вашими глазами",
+      text: "Даже самый подробный пересказ — это ваша интерпретация. У каждого терапевта есть свои «слепые зоны» и когнитивные искажения, которые влияют на восприятие сессии. В итоге супервизор работает с вашей версией событий, а не с объективной реальностью, упуская важные детали и терапевтические возможности."
     },
     {
       id: 3,
-      title: "«Страшно разбирать свои ошибки»",
-      text: "Получать обратную связь от авторитетного супервизора иногда тревожно. \"Вдруг супервизор подумает, что я плохой терапевт?\""
+      title: "Сложно отследить динамику и паттерны в потоке сессий",
+      text: "Когда ведешь много клиентов, трудно держать в фокусе полную картину по каждому. Мелкие, но важные изменения, повторяющиеся паттерны и долгосрочная динамика могут ускользать из вида."
     },
     {
       id: 4,
-      title: "\"Супервизор не видит сессию своими глазами\"",
-      text: "Супервизор работает с тем, что ему рассказали — а не с самой сессией. В пересказе легко упустить важные детали: интонации, паузы, формулировки клиента, эмоциональные нюансы. Консультация строится на памяти и интерпретациях, а значит — не даёт полной картины и может быть поверхностной."
+      title: "Супервизия охватывает лишь малую часть вашей практики",
+      text: "Обычно на супервизию выносится 1-2 сессии в месяц. А что с остальными десятками встреч? Важные моменты, повторяющиеся паттерны и неочевидные успехи остаются «за кадром». Вы теряете 95% данных о своей работе, которые могли стать точками роста."
     }
-  ],
-  features: [
-    { id: 1, text: "Автоматическая запись и расшифровка" },
-    { id: 2, text: "Выводы по сессии и обратная связь" },
-    { id: 3, text: "Анализ динамики по нескольким сессиям" },
-    { id: 4, text: "Концептуализация клиента" }
   ],
   howItWorks: [
     {
@@ -106,11 +101,11 @@ const content = {
     },
     {
       id: 4,
-      title: "Иногда чувствует: «Я один»",
+      title: "Ценит профессиональную рефлексию",
       items: [
-        "Когда нет регулярной супервизии либо ее не достаточно для разбора всех кейсов",
-        "Когда сложно понять, это я что-то не так делаю или случай сложный",
-        "Когда нужна поддержка между сессиями, а спросить не у кого"
+        "Ищет «тренажер», чтобы оттачивать навыки между супервизиями",
+        "Хочет получать моментальную обратную связь для быстрой калибровки",
+        "Стремится сделать свое профессиональное развитие непрерывным процессом"
       ]
     }
   ],
@@ -325,21 +320,55 @@ const useEmailForm = () => {
 // --- PAGE SECTIONS (Would be in `src/components/sections/`) ---
 // ============================================================================
 
-const HeroSection = () => (
-  <section className="bg-gradient-to-br from-blue-50 to-slate-100 py-16 px-4">
-    <div className="max-w-4xl mx-auto text-center">
-      <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
-        Supervisor AI
-      </h1>
-      <h2 className="text-2xl md:text-3xl font-semibold text-blue-700 mb-8">
-        Профессиональная супервизия после каждой сессии
-      </h2>
-      <p className="text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto">
-        ИИ-супервизор записывает онлайн-сессию и выдает анализ клиента, саммари встречи и фидбек по навыкам — чтобы вы лучше понимали кейс и профессионально росли после каждой сессии
-      </p>
-    </div>
-  </section>
-);
+const HeroSection = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  };
+
+  return (
+    <section className="bg-gradient-to-br from-blue-50 to-slate-100 py-16 px-4">
+      <div className="max-w-6xl mx-auto text-center">
+        <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
+          Supervisor AI
+        </h1>
+        <h2 className="text-2xl md:text-3xl font-semibold text-blue-700 mb-8">
+          Профессиональная супервизия после каждой сессии
+        </h2>
+        <p className="text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto mb-12">
+          ИИ-супервизор записывает онлайн-сессию и выдает анализ клиента, саммари встречи и фидбек по навыкам — чтобы вы лучше понимали кейс и профессионально росли после каждой сессии
+        </p>
+        <div className="relative mx-auto w-full max-w-5xl cursor-pointer" onClick={togglePlay}>
+          <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-blue-400 to-teal-400 opacity-25 blur-2xl"></div>
+          <video
+            ref={videoRef}
+            src={recordingVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="relative rounded-lg shadow-2xl"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+          />
+          {!isPlaying && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-lg pointer-events-none">
+              <Play className="w-24 h-24 text-white fill-white drop-shadow-lg" />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const PainPointsSection = () => (
   <section className="py-16 px-4 bg-slate-50">
@@ -365,7 +394,7 @@ const BridgeSection = () => (
   <section className="py-16 px-4">
     <div className="max-w-4xl mx-auto text-center">
       <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8">
-        «Это я плохой терапевт или клиент сложный?»
+        Это я ошибаюсь или клиент сложный?
       </h2>
       <p className="text-lg text-slate-600 mb-6 italic">
         «После сложной сессии сижу и думаю: это я что-то не так делаю или так и должно быть?»
@@ -377,24 +406,6 @@ const BridgeSection = () => (
         <p className="text-lg text-slate-700 leading-relaxed">
           Живая супервизия остается незаменимой, но теперь между встречами с супервизором вы можете получать объективную поддержку после каждой сессии — мгновенно, конфиденциально и на основе реальной записи.
         </p>
-      </div>
-    </div>
-  </section>
-);
-
-const FeaturesSection = () => (
-  <section className="py-16 px-4 bg-slate-50">
-    <div className="max-w-4xl mx-auto text-center">
-      <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">
-        Supervisor AI – Автоматический анализ всех ваших сессий
-      </h2>
-      <div className="grid md:grid-cols-2 gap-6">
-        {content.features.map((feature) => (
-          <div key={feature.id} className="flex items-center bg-white p-6 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 will-change-transform">
-            <CheckCircle className="w-6 h-6 text-teal-600 mr-4 flex-shrink-0" />
-            <span className="text-lg text-slate-700">{feature.text}</span>
-          </div>
-        ))}
       </div>
     </div>
   </section>
@@ -731,11 +742,10 @@ const LandingPage = () => {
     // Add padding to the bottom to prevent content from being hidden by the sticky CTA bar
     <div className="min-h-screen bg-white pb-32">
       <HeroSection />
-      <PainPointsSection />
-      <BridgeSection />
-      <FeaturesSection />
       <HowItWorksSection />
       <AdditionalToolsSection />
+      <PainPointsSection />
+      <BridgeSection />
       <ConfidentialitySection />
       <AudienceSection />
       <FaqSection />
