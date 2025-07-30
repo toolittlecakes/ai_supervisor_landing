@@ -1,9 +1,10 @@
-import { BarChart3, Brain, CheckCircle, ChevronUp, FileText, Mail, Play, Shield, Users } from 'lucide-react';
+import { BarChart3, BrainCircuit, CheckCircle, ChevronUp, ClipboardList, Mail, Play, Shield, Star, TrendingUp, User, Zap } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 // --- ASSET IMPORTS ---
 import analysisImg from './assets/analysis.png';
+import callRecordPromptPanel from './assets/call_record_prompt_panel.svg';
 import conceptualizationImg from './assets/conceptualization.png';
 import recordingVideo from './assets/recording.mp4';
 import therapistDashboardImg from './assets/therapist_dashboard.png';
@@ -13,10 +14,58 @@ import transcriptImg from './assets/transcript.png';
 import PrivacyPolicy from './components/PrivacyPolicy';
 
 // ============================================================================
+// --- TYPES (Would be in `src/types.ts`) ---
+// ============================================================================
+
+interface PainPoint {
+  id: number;
+  title: string;
+  text: string;
+}
+
+interface HowItWorksItem {
+  id: number;
+  title: string;
+  text: string;
+  image: string;
+  details?: string[];
+  conclusion?: string;
+  features?: { text: string; icon: string }[];
+}
+
+interface Persona {
+  id: number;
+  title: string;
+  items: string[];
+}
+
+interface Faq {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+interface AdditionalTools {
+  analytics: {
+    title: string;
+    description: string;
+  };
+}
+
+
+interface Content {
+  painPoints: PainPoint[];
+  howItWorks: HowItWorksItem[];
+  personas: Persona[];
+  additionalTools: AdditionalTools;
+  faqData: Faq[];
+}
+
+// ============================================================================
 // --- DATA: Separated Content (Would be in a file like `src/data/content.ts`) ---
 // ============================================================================
 
-const content = {
+const content: Content = {
   painPoints: [
     {
       id: 1,
@@ -44,27 +93,29 @@ const content = {
       id: 1,
       title: "Автоматическая запись и расшифровка",
       text: "Приложение само обнаруживает звонок в Zoom/Meet/Teams/Telegram и предлагает его записать. Запись идет на вашем компьютере, никакие данные не покидают его. После сессии приложение автоматически расшифровывает запись и предлагает вам структурированный отчет.",
-      icon: <FileText className="w-16 h-16 text-blue-600" />,
       image: transcriptImg
     },
     {
       id: 2,
       title: "Выводы по сессии и обратная связь",
-      text: "Отчет по сессии включает в себя 3 блока:",
+      text: "Отчет по сессии включает в себя 3 ключевых блока анализа:",
       details: [
-        "О клиенте: формулировка проблемы, ключевые темы, динамика эмоций во время встречи",
-        "О сессии: баланс речи терапевт/клиент, качество рабочего альянса, использованные техники, какое домашнее задание было дано и как оно связано с целями терапии",
-        "О ваших навыках: обратная связь по шкалам CTSR и STCS, что получилось хорошо, где есть зоны роста, и конкретные рекомендации на следующую сессию"
+        "О клиенте: Формулировка проблемы, ключевые темы и эмоции.",
+        "О сессии: Баланс речи, альянс, техники и домашнее задание.",
+        "О ваших навыках: Оценка по шкалам, сильные стороны и зоны роста."
       ],
       conclusion: "Все это — через 5 минут после завершения встречи, пока впечатления еще свежие.",
-      icon: <BarChart3 className="w-16 h-16 text-blue-600" />,
       image: analysisImg
     },
     {
       id: 3,
       title: "Динамика по нескольким сессиям",
-      text: "AI Supervisor отслеживает, как меняется состояние клиента от встречи к встрече. Выявляет паттерны: что повторяется, где происходят сдвиги, а где застой. Концептуализация клиента обновляется автоматически: глубинные убеждения, промежуточные, копинг-стратегии, поддерживающие циклы — всё складывается в единую картину сессия за сессией. Это помогает видеть не только момент, но и процесс — и принимать терапевтические решения на основе всей динамики, а не фрагмента.",
-      icon: <Brain className="w-16 h-16 text-blue-600" />,
+      text: "AI Supervisor помогает видеть не только момент, но и процесс — и принимать терапевтические решения на основе всей динамики, а не фрагмента.",
+      features: [
+        { text: "Отслеживает, как меняется состояние клиента от встречи к встрече", icon: "TrendingUp" },
+        { text: "Выявляет паттерны: что повторяется, где происходят сдвиги, а где застой", icon: "Zap" },
+        { text: "Автоматически обновляет концептуализацию, складывая всё в единую картину", icon: "BrainCircuit" }
+      ],
       image: conceptualizationImg
     }
   ],
@@ -109,6 +160,12 @@ const content = {
       ]
     }
   ],
+  additionalTools: {
+    analytics: {
+      title: "Аналитика ваших навыков",
+      description: "Отдельный раздел, где собирается аналитика по вашей работе. Здесь видны ваши сильные стороны и зоны роста по ключевым навыкам. Можно отслеживать прогресс и видеть, где вы реально растёте."
+    }
+  },
   faqData: [
     {
       id: 1,
@@ -162,6 +219,15 @@ const content = {
 // ============================================================================
 // --- UI COMPONENTS (Would be in `src/components/ui/`) ---
 // ============================================================================
+
+const detailIcons: { [key: string]: React.ReactElement } = {
+  User: <User className="w-6 h-6 text-blue-700" />,
+  ClipboardList: <ClipboardList className="w-6 h-6 text-teal-700" />,
+  Star: <Star className="w-6 h-6 text-amber-600" />,
+  TrendingUp: <TrendingUp className="w-7 h-7 text-blue-600" />,
+  Zap: <Zap className="w-7 h-7 text-blue-600" />,
+  BrainCircuit: <BrainCircuit className="w-7 h-7 text-blue-600" />,
+};
 
 // --- Reusable, Accessible Accordion Component ---
 interface AccordionProps {
@@ -428,37 +494,70 @@ const HowItWorksSection = () => {
             AI Supervisor — это десктопное приложение для macOS и Windows, которое работает с вашими онлайн-сессиями прямо на компьютере, не передавая данные в облако.
           </p>
 
-          {content.howItWorks.map((item, index) => (
-            <div key={item.id} className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-12 mb-16 last:mb-0`}>
-              <div className="lg:w-1/2 flex justify-center order-2 lg:order-none">
-                <button
-                  onClick={() => setExpandedImage(item.image)}
-                  className="focus:outline-none group transition-transform duration-300 hover:scale-105 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4"
-                >
-                  <img src={item.image} alt={item.title} className="rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity" />
-                </button>
-              </div>
-              <div className="lg:w-1/2 order-1 lg:order-none">
-                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">
-                  {item.title}
-                </h3>
-                <p className="text-slate-600 leading-relaxed mb-4">{item.text}</p>
+          <div className="space-y-24">
+            {content.howItWorks.map((item) => (
+              <div key={item.id} className="text-center">
+
+                {item.id === 1 && (
+                  <img src={callRecordPromptPanel} alt="Call Record Prompt" className="max-w-xs mx-auto mb-8 -mt-8" />
+                )}
+
+                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">{item.title}</h3>
+                <p className="text-slate-600 leading-relaxed mb-12 max-w-3xl mx-auto">{item.text}</p>
+
                 {item.details && (
-                  <ul className="space-y-3 my-4">
-                    {item.details.map((detail, detailIndex) => (
-                      <li key={detailIndex} className="flex items-start">
-                        <span className="text-blue-600 mr-3 mt-1">•</span>
-                        <span className="text-slate-600 leading-relaxed">{detail}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    {item.details.map((detail, detailIndex) => {
+                      const [title, ...rest] = detail.split(':');
+                      const description = rest.join(':').trim();
+                      const iconKey = Object.keys(detailIcons)[detailIndex];
+                      return (
+                        <div key={detailIndex} className="flex flex-col items-center text-center p-6 bg-white rounded-lg border border-slate-200 shadow-sm h-full hover:shadow-md transition-shadow duration-300">
+                          <div className={`flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center mb-4 bg-opacity-10 ${detailIndex === 0 ? 'bg-blue-500' : detailIndex === 1 ? 'bg-teal-500' : 'bg-amber-500'
+                            }`}>
+                            {detailIcons[iconKey]}
+                          </div>
+                          <h4 className="font-bold text-slate-800 text-lg mb-2">{title}</h4>
+                          <p className="text-slate-600 leading-relaxed text-sm flex-grow">{description}</p>
+                        </div>
+                      )
+                    })}
+                  </div>
                 )}
+
+                {item.features && (
+                  <div className="grid md:grid-cols-3 gap-x-8 gap-y-6 max-w-5xl mx-auto">
+                    {item.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-start text-left gap-4">
+                        <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                          {detailIcons[feature.icon]}
+                        </div>
+                        <div>
+                          <p className="text-slate-700 font-medium leading-relaxed pt-2 text-lg">{feature.text}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="mt-12">
+                  <button
+                    onClick={() => setExpandedImage(item.image)}
+                    className="focus:outline-none group transition-transform duration-300 hover:scale-105 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4 inline-block"
+                  >
+                    <img src={item.image} alt={item.title} className={`rounded-lg shadow-[0_0_40px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity max-w-4xl mx-auto ${item.id === 1 ? 'max-w-2xl' : ''}`} />
+                  </button>
+                </div>
+
                 {item.conclusion && (
-                  <p className="mt-4 pt-4 border-t border-slate-200 text-slate-600 font-medium">{item.conclusion}</p>
+                  <div className="mt-12 inline-flex items-center gap-4 bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-lg max-w-2xl mx-auto text-left shadow-sm">
+                    <Zap className="w-8 h-8 text-blue-600 flex-shrink-0" />
+                    <p className="text-blue-800 font-semibold leading-relaxed text-lg">{item.conclusion}</p>
+                  </div>
                 )}
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
       <ImageModal src={expandedImage} onClose={() => setExpandedImage(null)} />
@@ -471,38 +570,23 @@ const AdditionalToolsSection = () => {
 
   return (
     <>
-      <section className="py-16 px-4 bg-slate-50">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 mb-12">
-            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 will-change-transform">
-              <div className="flex items-center mb-6">
-                <Users className="w-8 h-8 text-blue-600 mr-3" />
+      <section className="py-20 px-4 bg-slate-50">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-white p-10 rounded-xl shadow-sm border border-slate-200">
+            <div className="flex flex-col items-center mb-6">
+              <BarChart3 className="w-10 h-10 text-blue-600 mb-3" />
                 <h3 className="text-2xl font-bold text-slate-900">
-                  Умная папка под каждого клиента
+                {content.additionalTools.analytics.title}
                 </h3>
               </div>
-              <p className="text-slate-600 leading-relaxed">
-                У каждого клиента — свой «профиль»: сессии, концептуализация, план терапии и заметки. Отдельная вкладка хранит цели и стратегию терапии — с возможностью отмечать прогресс. Есть и «карточка клиента» — место для важной информации, которую вы хотите держать под рукой. Всё в одном месте — не нужно листать тетради и искать прошлые заметки.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 will-change-transform">
-              <div className="flex items-center mb-6">
-                <BarChart3 className="w-8 h-8 text-blue-600 mr-3" />
-                <h3 className="text-2xl font-bold text-slate-900">
-                  Аналитика ваших навыков
-                </h3>
-              </div>
-              <p className="text-slate-600 leading-relaxed">
-                Отдельный раздел, где собирается аналитика по вашей работе. Здесь видны ваши сильные стороны и зоны роста по ключевым навыкам. Можно отслеживать прогресс: как меняется уровень навыков со временем. Это помогает осознанно развиваться и видеть, где вы реально растёте.
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-center">
+            <p className="text-slate-600 leading-relaxed mb-8 max-w-2xl mx-auto">
+              {content.additionalTools.analytics.description}
+            </p>
             <button
               onClick={() => setExpandedImage(therapistDashboardImg)}
               className="focus:outline-none group transition-transform duration-300 hover:scale-105 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4"
             >
-              <img src={therapistDashboardImg} alt="Панель с аналитикой по навыкам терапевта" className="rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity" />
+              <img src={therapistDashboardImg} alt="Панель с аналитикой по навыкам терапевта" className="rounded-lg shadow-[0_0_40px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity" />
             </button>
           </div>
         </div>
