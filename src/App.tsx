@@ -499,7 +499,7 @@ const HowItWorksSection = () => {
               <div key={item.id} className="text-center">
 
                 {item.id === 1 && (
-                  <img src={callRecordPromptPanel} alt="Call Record Prompt" className="max-w-xs mx-auto mb-8 -mt-8" />
+                  <img src={callRecordPromptPanel} alt="Call Record Prompt" className="max-w-xs mx-auto mb-8 -mt-8 [filter:drop-shadow(0_4px_8px_rgba(0,0,0,0.35))]" />
                 )}
 
                 <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">{item.title}</h3>
@@ -545,7 +545,15 @@ const HowItWorksSection = () => {
                     onClick={() => setExpandedImage(item.image)}
                     className="focus:outline-none group transition-transform duration-300 hover:scale-105 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4 inline-block"
                   >
-                    <img src={item.image} alt={item.title} className={`w-full rounded-lg shadow-[0_0_40px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-opacity max-w-4xl mx-auto ${item.id === 1 ? 'max-w-2xl' : ''}`} />
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className={`
+                        w-full rounded-lg shadow-[0_0_40px_rgba(0,0,0,0.1)] group-hover:opacity-90 transition-all
+                        mx-auto
+                        ${item.id === 1 ? 'max-w-[29rem]' : item.id === 2 ? 'max-w-[50rem]' : 'max-w-4xl'}
+                      `}
+                    />
                   </button>
                 </div>
 
