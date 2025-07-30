@@ -745,12 +745,12 @@ const LandingPage = () => {
     // Add padding to the bottom to prevent content from being hidden by the sticky CTA bar
     <div className="min-h-screen bg-white pb-32">
       <HeroSection />
-      <HowItWorksSection />
-      <AdditionalToolsSection />
       <PainPointsSection />
       <BridgeSection />
-      <ConfidentialitySection />
+      <HowItWorksSection />
+      <AdditionalToolsSection />
       <AudienceSection />
+      <ConfidentialitySection />
       <FaqSection />
       <PageFooter />
       <StickyCtaBar />
