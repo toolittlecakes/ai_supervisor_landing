@@ -6,6 +6,8 @@ import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import analysisImg from './assets/analysis.png';
 import callRecordPromptPanel from './assets/call_record_prompt_panel.svg';
 import conceptualizationImg from './assets/conceptualization.png';
+import privacyCompetitor from './assets/privacy_competitor.png';
+import privacySolution from './assets/privacy_solution.png';
 import recordingVideo from './assets/recording.mp4';
 import therapistDashboardImg from './assets/therapist_dashboard.png';
 import transcriptImg from './assets/transcript.png';
@@ -605,17 +607,59 @@ const AdditionalToolsSection = () => {
 };
 
 const ConfidentialitySection = () => (
-  <section className="py-16 px-4">
-    <div className="max-w-4xl mx-auto text-center">
-      <div className="flex justify-center mb-6">
-        <Shield className="w-12 h-12 text-teal-600" />
+  <section className="py-20 px-4 bg-slate-50">
+    <div className="max-w-7xl mx-auto">
+      <div className="text-center mb-16">
+        <div className="inline-flex justify-center items-center mb-6 bg-teal-100 p-3 rounded-full">
+          <Shield className="w-10 h-10 text-teal-700" />
+        </div>
+        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+          Конфиденциальность — наш главный приоритет
+        </h2>
+        <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+          Мы спроектировали систему так, чтобы аудиозаписи и данные клиентов не покидали ваш компьютер и не хранились у нас. Это ключевое отличие от многих других сервисов.
+        </p>
       </div>
-      <h2 className="text-3xl font-bold text-slate-900 mb-8">
-        Конфиденциальность
-      </h2>
-      <p className="text-lg text-slate-600 leading-relaxed">
-        Мы не храним ваши звонки на своих серверах. Все аудиозаписи, транскрипты и данные клиентов хранятся на вашем компьютере. Для анализа сессий используются защищенные API Yandex Cloud, которые не используют ваши данные для обучения моделей.
-      </p>
+
+      <div className="grid md:grid-cols-2 gap-12 items-start">
+
+        {/* Competitor's Approach */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-full">
+          <h3 className="text-xl font-bold text-slate-800 mb-4 text-center">Как делают другие</h3>
+          <img src={privacyCompetitor} alt="Схема хранения данных у конкурентов" className="w-full mb-4" />
+          <ul className="space-y-3 text-sm text-slate-600">
+            <li className="flex items-start">
+              <span className="text-red-500 font-bold mr-3 text-lg">✗</span>
+              <span>Записи сессий загружаются и хранятся на серверах компании, что создает <strong>риск утечки</strong> при взломе.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-red-500 font-bold mr-3 text-lg">✗</span>
+              <span>Данные могут передаваться иностранным ИИ-провайдерам (например, OpenAI), что создает <strong>юридические риски</strong>.</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Our Approach */}
+        <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-teal-500 h-full">
+          <h3 className="text-xl font-bold text-slate-800 mb-4 text-center">Как сделали мы</h3>
+          <img src={privacySolution} alt="Схема хранения данных в Supervisor AI" className="w-full mb-4" />
+          <ul className="space-y-3 text-sm text-slate-600">
+            <li className="flex items-start">
+              <span className="text-green-600 font-bold mr-3 text-lg">✓</span>
+              <span>Записи сессий и данные клиентов <strong>хранятся только на вашем компьютере.</strong> Они никогда не передаются на наши серверы.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-green-600 font-bold mr-3 text-lg">✓</span>
+              <span>Для анализа используется защищенное API Yandex Cloud, которое работает <strong>внутри РФ</strong> и не использует ваши данные для обучения моделей.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-green-600 font-bold mr-3 text-lg">✓</span>
+              <span>Наши серверы хранят <strong>только ваш email и данные об оплате</strong>, без привязки к данным ваших клиентов.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
     </div>
   </section>
 );

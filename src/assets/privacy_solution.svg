@@ -1,0 +1,67 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title-text { font-family: 'Segoe UI', 'Roboto', sans-serif; font-size: 14px; font-weight: 600; fill: #1F2937; text-anchor: middle; }
+    .body-text { font-family: 'Segoe UI', 'Roboto', sans-serif; font-size: 16px; font-weight: 600; fill: #064E3B; text-anchor: middle;}
+    .label-text { font-family: 'Segoe UI', 'Roboto', sans-serif; font-size: 13px; fill: #4B5563; text-anchor: middle; }
+    .note-text { font-family: 'Segoe UI', 'Roboto', sans-serif; font-size: 13px; fill: #047857; text-anchor: middle; }
+    .arrow-line { stroke: #6B7280; stroke-width: 1.5; fill: none; }
+    .arrow-head { fill: #6B7280; }
+    tspan { text-anchor: middle; }
+    .icon-base { stroke-width: 1.5; }
+    .safe-icon { fill: #D1FAE5; stroke: #10B981; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead-safe" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="arrow-head" />
+    </marker>
+  </defs>
+
+  <!-- Therapist's Device -->
+  <g id="therapist-device">
+    <g class="icon-base safe-icon" transform="translate(125, 185) scale(2.8)">
+      <path d="M1 14h18v2H1zM3 2h14a1 1 0 011 1v9H2V3a1 1 0 011-1z"></path>
+    </g>
+    <text x="153" y="160" class="title-text">Устройство терапевта</text>
+    <text x="153" y="250" class="body-text">Запись и хранение</text>
+    <text x="153" y="270" class="body-text" text-decoration="underline" font-weight="bold">сессии</text>
+  </g>
+
+  <!-- Company Server -->
+  <g id="company-server">
+    <g class="icon-base safe-icon" transform="translate(425, 60) scale(2.8)">
+       <rect x="2" y="2" width="16" height="12" rx="1"></rect>
+       <path d="M4 6h4m-4 4h2m-2 4h4"></path>
+    </g>
+    <text x="453" y="35" class="title-text">Сервера компании</text>
+    <text x="453" y="125" class="body-text">Только данные</text>
+    <text x="453" y="145" class="body-text">терапевта</text>
+    <text x="453" y="163" class="label-text">(email, оплаты)</text>
+  </g>
+
+  <!-- AI Provider -->
+  <g id="ai-provider">
+    <g class="icon-base safe-icon" transform="translate(555, 185) scale(2.8)">
+      <path d="M6.5 8C4.5 8 3 9.5 3 11.5c0 2 1.5 3.5 3.5 3.5h7c1.5 0 3-1.5 3-3s-1.5-3-3-3c0-2.5-1.5-4.5-4-4.5-2 0-3.5 1.5-4 3.5z"></path>
+    </g>
+    <text x="583" y="160" class="title-text">ИИ провайдер (Яндекс Облако)</text>
+    <text x="583" y="250" class="body-text">Анализ сессии</text>
+  </g>
+
+  <!-- Arrows -->
+  <path d="M245 190 C 315 110, 395 90, 415 90" class="arrow-line" marker-end="url(#arrowhead-safe)"></path>
+  <path d="M415 110 C 395 130, 315 170, 245 200" class="arrow-line" marker-end="url(#arrowhead-safe)"></path>
+  <path d="M245 220 H 545" class="arrow-line" marker-end="url(#arrowhead-safe)"></path>
+  <path d="M545 240 H 245" class="arrow-line" marker-end="url(#arrowhead-safe)"></path>
+
+  <text x="380" y="190" class="label-text">
+    <tspan x="380" dy="1.2em">Данные клиентов сразу отправляются</tspan>
+    <tspan x="380" dy="1.2em">на защищенные сервера Яндекса</tspan>
+  </text>
+
+  <!-- Note -->
+  <text x="583" y="300" class="note-text">
+      <tspan x="583" dy="1.2em">Данные обрабатываются</tspan>
+      <tspan x="583" dy="1.2em">внутри РФ</tspan>
+  </text>
+</svg>
