@@ -635,10 +635,10 @@ const AdditionalToolsSection = () => {
           <div className="bg-white p-10 rounded-xl shadow-sm border border-slate-200">
             <div className="flex flex-col items-center mb-6">
               <BarChart3 className="w-10 h-10 text-blue-600 mb-3" />
-                <h3 className="text-2xl font-bold text-slate-900">
+              <h3 className="text-2xl font-bold text-slate-900">
                 {content.additionalTools.analytics.title}
-                </h3>
-              </div>
+              </h3>
+            </div>
             <p className="text-slate-600 leading-relaxed mb-8 max-w-2xl mx-auto">
               {content.additionalTools.analytics.description}
             </p>
@@ -677,35 +677,6 @@ const CreatorsSection = () => (
             <p
               className="text-slate-600 leading-relaxed"
               dangerouslySetInnerHTML={{ __html: creator.description }}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-const ResearchGroupSection = () => (
-  <section className="py-16 px-4 bg-slate-50">
-    <div className="max-w-5xl mx-auto">
-      <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">
-        Наша исследовательская группа
-      </h2>
-      <p className="text-xl text-slate-600 text-center mb-12">
-        В основе наших инноваций лежат усилия наших преданных своему делу психологов.
-      </p>
-      <div className="grid md:grid-cols-2 gap-16">
-        {content.researchGroup.map((member, index) => (
-          <div key={index} className="flex flex-col items-center text-center">
-            <img
-              src={member.avatar}
-              alt={member.name}
-              className="w-32 h-32 rounded-full mb-6 object-cover shadow-lg"
-            />
-            <h3 className="text-xl font-bold text-slate-900 mb-2">{member.name}</h3>
-            <p
-              className="text-slate-600 leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: member.description }}
             />
           </div>
         ))}
@@ -863,88 +834,88 @@ const StickyCtaBar = () => {
             <p className="text-xl text-teal-700 font-semibold">{message}</p>
           </div>
         ) : status === 'error' ? (
-            <div className="w-full bg-white rounded-xl p-6 shadow-sm border border-red-200">
-              <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-red-600 text-xl">⚠</span>
-                  </div>
-                  <p className="text-red-700 font-medium">{message}</p>
+          <div className="w-full bg-white rounded-xl p-6 shadow-sm border border-red-200">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-red-600 text-xl">⚠</span>
                 </div>
-                <button
-                  onClick={() => setStatus('idle')}
-                  className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-md transform hover:-translate-y-0.5"
-                >
-                  Попробовать снова
-                </button>
+                <p className="text-red-700 font-medium">{message}</p>
+              </div>
+              <button
+                onClick={() => setStatus('idle')}
+                className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-md transform hover:-translate-y-0.5"
+              >
+                Попробовать снова
+              </button>
+            </div>
+          </div>
+        ) : status === 'awaiting_consent' || (status === 'submitting' && isConsentChecked) ? (
+          <div className="w-full bg-white rounded-xl p-8 shadow-lg border border-slate-200">
+            <div className="flex items-start gap-4 mb-6">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <Mail className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-slate-800 mb-2">Закрытое тестирование</h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Сейчас мы закрыли доступ, чтобы подготовиться к следующей волне тестирования. Если вам интересно — оставьте почту, и мы напишем, как только снова откроем доступ.
+                </p>
               </div>
             </div>
-          ) : status === 'awaiting_consent' || (status === 'submitting' && isConsentChecked) ? (
-            <div className="w-full bg-white rounded-xl p-8 shadow-lg border border-slate-200">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-800 mb-2">Закрытое тестирование</h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    Сейчас мы закрыли доступ, чтобы подготовиться к следующей волне тестирования. Если вам интересно — оставьте почту, и мы напишем, как только снова откроем доступ.
-                  </p>
+
+            <form onSubmit={handleEmailSubmit} className="space-y-6">
+              <div className="bg-slate-50 rounded-lg p-4 border-l-4 border-blue-500">
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="consent"
+                    checked={isConsentChecked}
+                    onChange={e => setConsentChecked(e.target.checked)}
+                    className="mt-1 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2"
+                  />
+                  <label htmlFor="consent" className="text-slate-700 leading-relaxed cursor-pointer">
+                    Я согласен на{' '}
+                    <a
+                      href="/privacy-policy"
+                      className="text-blue-600 underline hover:text-blue-800 transition-colors font-medium"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      обработку персональных данных
+                    </a>
+                  </label>
                 </div>
               </div>
 
-              <form onSubmit={handleEmailSubmit} className="space-y-6">
-                <div className="bg-slate-50 rounded-lg p-4 border-l-4 border-blue-500">
-                  <div className="flex items-start gap-3">
-                    <input
-                      type="checkbox"
-                      id="consent"
-                      checked={isConsentChecked}
-                      onChange={e => setConsentChecked(e.target.checked)}
-                      className="mt-1 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2"
-                    />
-                    <label htmlFor="consent" className="text-slate-700 leading-relaxed cursor-pointer">
-                      Я согласен на{' '}
-                      <a
-                        href="/privacy-policy"
-                        className="text-blue-600 underline hover:text-blue-800 transition-colors font-medium"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        обработку персональных данных
-                      </a>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="flex justify-center">
-                  <div className="relative group">
-                    <button
-                      type="submit"
-                      disabled={!isConsentChecked || status === 'submitting'}
-                      className="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-blue-300 disabled:to-blue-400 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none disabled:shadow-md min-w-[200px]"
-                    >
-                      {status === 'submitting' ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                          Отправка...
-                        </>
-                      ) : (
-                        <>
-                          <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                          Да, напишите мне
-                        </>
-                      )}
-                    </button>
-                    {!isConsentChecked && status !== 'submitting' && (
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-                        Необходимо согласие на обработку данных
-                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-800"></div>
-                      </div>
+              <div className="flex justify-center">
+                <div className="relative group">
+                  <button
+                    type="submit"
+                    disabled={!isConsentChecked || status === 'submitting'}
+                    className="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-blue-300 disabled:to-blue-400 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none disabled:shadow-md min-w-[200px]"
+                  >
+                    {status === 'submitting' ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Отправка...
+                      </>
+                    ) : (
+                      <>
+                        <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                        Да, напишите мне
+                      </>
                     )}
-                  </div>
+                  </button>
+                  {!isConsentChecked && status !== 'submitting' && (
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                      Необходимо согласие на обработку данных
+                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-800"></div>
+                    </div>
+                  )}
                 </div>
-              </form>
+              </div>
+            </form>
           </div>
         ) : (
           <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-4 w-full items-start">
