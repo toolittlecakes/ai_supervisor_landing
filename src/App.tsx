@@ -239,7 +239,7 @@ const content: Content = {
     },
     {
       name: 'Николай Шейко',
-      description: `ИИ-разработчик c 6 годами опыта в российских и американских компаниях. Ведет консультации по ИИ для бизнеса в РФ, Европе и Сингапуре. Автор канала <a href="https://t.me/oestick" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">"AI и грабли"</a>`,
+      description: `ИИ-разработчик c 6 годами опыта в компаниях РФ и США. Внедряет ИИ в бизнесы в РФ, Европе и Сингапуре. Автор канала <a href="https://t.me/oestick" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">"AI и грабли"</a>`,
       avatar: nikolayAvatar,
     },
   ],
