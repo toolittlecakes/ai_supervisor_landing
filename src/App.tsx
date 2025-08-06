@@ -7,7 +7,7 @@ import analysisImg from './assets/analysis.png';
 import callRecordPromptPanel from './assets/call_record_prompt_panel.svg';
 import conceptualizationImg from './assets/conceptualization.png';
 import privacyExplanationImg from './assets/privacy_explanation.png';
-import recordingVideo from './assets/recording.mp4';
+import recordingVideo from './assets/compressed_recording.mp4';
 import therapistDashboardImg from './assets/therapist_dashboard.png';
 import transcriptImg from './assets/transcript.png';
 
