@@ -5,9 +5,12 @@ import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 // --- ASSET IMPORTS ---
 import analysisImg from './assets/analysis.png';
 import callRecordPromptPanel from './assets/call_record_prompt_panel.svg';
-import conceptualizationImg from './assets/conceptualization.png';
-import privacyExplanationImg from './assets/privacy_explanation.png';
 import recordingVideo from './assets/compressed_recording.mp4';
+import conceptualizationImg from './assets/conceptualization.png';
+import { default as marinaAvatar, default as olgaAvatar } from './assets/nicole_avatar.png';
+import { default as nicoleAvatar, default as polinaAvatar } from './assets/nicole_avatar_small.png';
+import { default as alexeyAvatar, default as nikolayAvatar } from './assets/nikolay_avatar.png';
+import privacyExplanationImg from './assets/privacy_explanation.png';
 import therapistDashboardImg from './assets/therapist_dashboard.png';
 import transcriptImg from './assets/transcript.png';
 
@@ -46,6 +49,18 @@ interface Faq {
   answer: string;
 }
 
+interface Creator {
+  name: string;
+  description: string;
+  avatar: string;
+}
+
+interface ResearchMember {
+  name: string;
+  description: string;
+  avatar: string;
+}
+
 interface AdditionalTools {
   analytics: {
     title: string;
@@ -60,6 +75,8 @@ interface Content {
   personas: Persona[];
   additionalTools: AdditionalTools;
   faqData: Faq[];
+  creators: Creator[];
+  researchGroup: ResearchMember[];
 }
 
 // ============================================================================
@@ -213,6 +230,40 @@ const content: Content = {
       question: "Какие программы для онлайн-звонков поддерживаются?",
       answer: "Приложение будет автоматически обнаруживать и предлагать запись звонков в популярных сервисах, таких как Zoom, Google Meet, Microsoft Teams и Telegram (десктопная версия)."
     }
+  ],
+  creators: [
+    {
+      name: 'Николь Шахбазян',
+      description: `Психолог, опыт работы 6-лет (КПТ, схема-терапия), молекулярный биолог, автор телеграм-канала <a href="https://t.me/tibiolog" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">“Ты ж биолог”</a>`,
+      avatar: nicoleAvatar,
+    },
+    {
+      name: 'Николай Шейко',
+      description: `ИИ-разработчик c 6 годами опыта в российских и американских компаниях. Консультирует по ИИ интеграциями бизнес в РФ, Европе и Сингапуре. Автор канала <a href="https://t.me/oestick" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">"AI и грабли"</a>`,
+      avatar: nikolayAvatar,
+    },
+  ],
+  researchGroup: [
+    {
+      name: 'Николаева Марина',
+      description: 'Психолог, Супервизор. Опыт работы 19 лет',
+      avatar: marinaAvatar,
+    },
+    {
+      name: 'Полина Семенова',
+      description: 'Детский психолог, педагог-психолог высшей категории. Опыт работы 12 лет',
+      avatar: polinaAvatar,
+    },
+    {
+      name: 'Алексей Волков',
+      description: 'Клинический, семейный психолог, сексолог. Опыт работы более 20 лет',
+      avatar: alexeyAvatar,
+    },
+    {
+      name: 'Матвеева Ольга',
+      description: 'Психолог, обучающий личный терапевт. Опыт работы 5 лет',
+      avatar: olgaAvatar,
+    },
   ],
 };
 
@@ -605,8 +656,66 @@ const AdditionalToolsSection = () => {
   );
 };
 
+const CreatorsSection = () => (
+  <section className="py-16 px-4">
+    <div className="max-w-4xl mx-auto">
+      <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">
+        Создатели
+      </h2>
+      <p className="text-xl text-slate-600 text-center mb-12">
+        За этим проектом стоят два человека
+      </p>
+      <div className="grid md:grid-cols-2 gap-10">
+        {content.creators.map((creator, index) => (
+          <div key={index} className="flex flex-col items-center text-center">
+            <img
+              src={creator.avatar}
+              alt={creator.name}
+              className="w-32 h-32 rounded-full mb-6 object-cover shadow-lg"
+            />
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{creator.name}</h3>
+            <p
+              className="text-slate-600 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: creator.description }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const ResearchGroupSection = () => (
+  <section className="py-16 px-4 bg-slate-50">
+    <div className="max-w-5xl mx-auto">
+      <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">
+        Наша исследовательская группа
+      </h2>
+      <p className="text-xl text-slate-600 text-center mb-12">
+        В основе наших инноваций лежат усилия наших преданных своему делу психологов.
+      </p>
+      <div className="grid md:grid-cols-2 gap-16">
+        {content.researchGroup.map((member, index) => (
+          <div key={index} className="flex flex-col items-center text-center">
+            <img
+              src={member.avatar}
+              alt={member.name}
+              className="w-32 h-32 rounded-full mb-6 object-cover shadow-lg"
+            />
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{member.name}</h3>
+            <p
+              className="text-slate-600 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: member.description }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 const ConfidentialitySection = () => (
-  <section className="py-20 px-4 bg-slate-50">
+  <section className="py-20 px-4 bg-white">
     <div className="max-w-7xl mx-auto">
       <div className="text-center mb-8">
         <div className="inline-flex justify-center items-center mb-6 bg-teal-100 p-3 rounded-full">
@@ -887,6 +996,7 @@ const LandingPage = () => {
       <HowItWorksSection />
       <AdditionalToolsSection />
       <AudienceSection />
+      <CreatorsSection />
       <ConfidentialitySection />
       <FaqSection />
       <PageFooter />
