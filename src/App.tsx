@@ -6,8 +6,7 @@ import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import analysisImg from './assets/analysis.png';
 import callRecordPromptPanel from './assets/call_record_prompt_panel.svg';
 import conceptualizationImg from './assets/conceptualization.png';
-import privacyCompetitor from './assets/privacy_competitor.png';
-import privacySolution from './assets/privacy_solution.png';
+import privacyExplanationImg from './assets/privacy_explanation.png';
 import recordingVideo from './assets/recording.mp4';
 import therapistDashboardImg from './assets/therapist_dashboard.png';
 import transcriptImg from './assets/transcript.png';
@@ -614,51 +613,53 @@ const ConfidentialitySection = () => (
           <Shield className="w-10 h-10 text-teal-700" />
         </div>
         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-          Конфиденциальность — наш главный приоритет
+          Конфиденциальность
         </h2>
         <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-          Мы спроектировали систему так, чтобы аудиозаписи и данные клиентов не покидали ваш компьютер и не хранились у нас. Это ключевое отличие от многих других сервисов.
+          Мы разработали Supervisor AI так, чтобы исходные данные никогда не покидали ваш компьютер. Транскрибация происходит на вашем устройстве, что позволяет не сохранять аудио (биометрические данные) и анонимизировать текст до передачи на сервер.
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-12 items-start">
+      <div className="max-w-5xl mx-auto mb-12 transition-transform duration-300 ease-in-out hover:scale-[1.02]">
+        <img src={privacyExplanationImg} alt="Инфографика: схема обработки и защиты данных" className="w-full rounded-2xl shadow-md border border-slate-200" />
+      </div>
 
-        {/* Competitor's Approach */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-full">
-          <h3 className="text-xl font-bold text-slate-800 mb-4 text-center">Как делают другие</h3>
-          <img src={privacyCompetitor} alt="Схема хранения данных у конкурентов" className="w-full mb-4" />
-          <ul className="space-y-3 text-sm text-slate-600">
-            <li className="flex items-start">
-              <span className="text-red-500 font-bold mr-3 text-lg">✗</span>
-              <span>Записи сессий загружаются и хранятся на серверах компании, что создает <strong>риск утечки</strong> при взломе.</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-red-500 font-bold mr-3 text-lg">✗</span>
-              <span>Данные могут передаваться иностранным ИИ-провайдерам (например, OpenAI), что создает <strong>юридические риски</strong>.</span>
-            </li>
-          </ul>
+      <div className="max-w-3xl mx-auto text-center mb-12">
+        <p className="text-slate-600">
+          Мы используем AES-256 — тот же стандарт шифрования, что применяют банки и медицинские учреждения. Все данные хранятся на территории РФ и обработка соответствует требованиям ФЗ-152.
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-8">
+        {/* Original Text */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 will-change-transform">
+          <h3 className="text-lg font-bold text-slate-800 mb-4 text-center">Исходный текст</h3>
+          <p className="text-sm text-slate-600 whitespace-pre-line leading-relaxed">
+            ...и получается, опять не сплю вторую ночь. Ну, завтра же дедлайн по проекту <span className="bg-slate-200 rounded px-1">Альтаир-Групп</span>. Ну а <span className="bg-slate-200 rounded px-1">Михаил Андреевич</span> вчера на совещании явно дал понять на ком ответственность. Напрягаюсь, что со мной будет так же самое, что со <span className="bg-slate-200 rounded px-1">Светой</span>, другим аналитиком. И в итоге вместо работы просто залипаю в ютуб чтобы отвлечься...
+          </p>
         </div>
 
-        {/* Our Approach */}
-        <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-teal-500 h-full">
-          <h3 className="text-xl font-bold text-slate-800 mb-4 text-center">Как сделали мы</h3>
-          <img src={privacySolution} alt="Схема хранения данных в Supervisor AI" className="w-full mb-4" />
-          <ul className="space-y-3 text-sm text-slate-600">
-            <li className="flex items-start">
-              <span className="text-green-600 font-bold mr-3 text-lg">✓</span>
-              <span>Записи сессий и данные клиентов <strong>хранятся только на вашем компьютере.</strong> Они никогда не передаются на наши серверы.</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-green-600 font-bold mr-3 text-lg">✓</span>
-              <span>Для анализа используется защищенное API Yandex Cloud, которое работает <strong>внутри РФ</strong> и не использует ваши данные для обучения моделей.</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-green-600 font-bold mr-3 text-lg">✓</span>
-              <span>Наши серверы хранят <strong>только ваш email и данные об оплате</strong>, без привязки к данным ваших клиентов.</span>
-            </li>
-          </ul>
+        {/* Anonymized Text */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 will-change-transform">
+          <h3 className="text-lg font-bold text-slate-800 mb-4 text-center">Анонимизированный</h3>
+          <p className="text-sm text-slate-600 whitespace-pre-line leading-relaxed">
+            ...и получается, опять не сплю вторую ночь. Ну, завтра же дедлайн по проекту <span className="bg-slate-200 rounded px-1">[НАЗВАНИЕ_КОМПАНИИ]</span>. Ну а <span className="bg-slate-200 rounded px-1">[ИМЯ_1]</span> вчера на совещании явно дал понять на ком ответственность. Напрягаюсь, что со мной будет так же самое, что со <span className="bg-slate-200 rounded px-1">[ИМЯ_2]</span>, другим аналитиком. И в итоге вместо работы просто залипаю в ютуб чтобы отвлечься...
+          </p>
         </div>
 
+        {/* Encrypted Text */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <h3 className="text-lg font-bold text-slate-800 mb-4 text-center">Зашифрованный</h3>
+          <p className="text-sm text-slate-600 break-all leading-relaxed">
+            X5z@2sF8gH1vN4bS9jK3lM6cR7wY0pDqE2fA9gV5hL1jB8kS3lO6mN4cR7xZ0pDqE2fA9gV5hL1jB8kS3lO6mN4cR7xZ0pDqE2fA9gV5hL1jB8kS3lO6mN4cR7xZ0pDqE2fA9gV5hL1jB8kS3lO6mN4cR7xZ0pDqE2fA9gV5hL1jB8kS3lO6mN4cR7xZ0pDqE2fA9gV5hL1jB8kS3lO6mN4cR7xZ0pDqE2fA9gV5hL1jB8kS3lO6mN4cR7xZ0pDqE2fA9gV5hL1jB8kS3lO6m
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-12 max-w-3xl mx-auto text-center space-y-4">
+        <p className="text-lg text-slate-700 font-medium">
+          Таким образом, ни наша команда, ни искусственный интеллект, ни кто-либо еще не имеет доступа к исходной информации. Ваша работа и данные ваших клиентов находятся под надежной защитой.
+        </p>
       </div>
     </div>
   </section>
