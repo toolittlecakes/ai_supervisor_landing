@@ -608,7 +608,7 @@ const AdditionalToolsSection = () => {
 const ConfidentialitySection = () => (
   <section className="py-20 px-4 bg-slate-50">
     <div className="max-w-7xl mx-auto">
-      <div className="text-center mb-16">
+      <div className="text-center mb-8">
         <div className="inline-flex justify-center items-center mb-6 bg-teal-100 p-3 rounded-full">
           <Shield className="w-10 h-10 text-teal-700" />
         </div>
