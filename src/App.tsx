@@ -386,7 +386,7 @@ const useEmailForm = () => {
     try {
       const response = await fetch(scriptURL, { method: 'POST', body: formData });
       if (response.ok) {
-        setMessage('E-mail сохранен! Сейчас мы закрыли доступ, чтобы подготовиться к следующей волне тестирования. Мы вам напишем, как только снова откроем доступ.');
+        setMessage('E-mail сохранен! Сейчас мы закрыли доступ, чтобы подготовиться к следующей волне тестирования. Мы вам напишем, как только снова его откроем.');
         setEmail('');
         setStatus('success');
       } else {
