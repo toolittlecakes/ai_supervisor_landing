@@ -360,54 +360,44 @@ const ImageModal: React.FC<ImageModalProps> = ({ src, onClose }) => {
 // --- CUSTOM HOOKS (Would be in `src/hooks/`) ---
 // ============================================================================
 
-type SubmissionStatus = 'idle' | 'awaiting_consent' | 'submitting' | 'success' | 'error';
+type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
 
 const useEmailForm = () => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<SubmissionStatus>('idle');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [isConsentChecked, setConsentChecked] = useState(false);
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (status === 'idle') {
-      setMessage('');
-      setError('');
-      if (!email || !/\S+@\S+\.\S+/.test(email)) {
-        setError('Пожалуйста, введите корректный email.');
-        return;
-      }
-      setStatus('awaiting_consent');
+    setMessage('');
+    setError('');
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setError('Пожалуйста, введите корректный email.');
       return;
     }
 
-    if (status === 'awaiting_consent') {
-      if (!isConsentChecked) return;
+    setStatus('submitting');
 
-      setStatus('submitting');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzSAcZLgKNlM6KDPNmvbriztenTnujubbmR6j4ddDWaR4yZXCECQsPmDIue-KzH-aHd/exec';
+    const formData = new FormData();
+    formData.append('email', email);
 
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbzSAcZLgKNlM6KDPNmvbriztenTnujubbmR6j4ddDWaR4yZXCECQsPmDIue-KzH-aHd/exec';
-      const formData = new FormData();
-      formData.append('email', email);
-
-      try {
-        const response = await fetch(scriptURL, { method: 'POST', body: formData });
-        if (response.ok) {
-          setMessage('Ваш email сохранен');
-          setEmail('');
-          setStatus('success');
-        } else {
-          console.error('Error from Google Script:', await response.text());
-          setMessage('Произошла ошибка. Попробуйте еще раз.');
-          setStatus('error');
-        }
-      } catch (error) {
-        console.error('Error submitting form:', error);
+    try {
+      const response = await fetch(scriptURL, { method: 'POST', body: formData });
+      if (response.ok) {
+        setMessage('E-mail сохранен! Сейчас мы закрыли доступ, чтобы подготовиться к следующей волне тестирования. Мы вам напишем, как только снова откроем доступ.');
+        setEmail('');
+        setStatus('success');
+      } else {
+        console.error('Error from Google Script:', await response.text());
         setMessage('Произошла ошибка. Попробуйте еще раз.');
         setStatus('error');
       }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setMessage('Произошла ошибка. Попробуйте еще раз.');
+      setStatus('error');
     }
   };
 
@@ -420,8 +410,6 @@ const useEmailForm = () => {
     error,
     setError,
     handleEmailSubmit,
-    isConsentChecked,
-    setConsentChecked
   };
 };
 
@@ -810,7 +798,7 @@ const PageFooter = () => (
 );
 
 const StickyCtaBar = () => {
-  const { email, setEmail, status, setStatus, message, error, setError, handleEmailSubmit, isConsentChecked, setConsentChecked } = useEmailForm();
+  const { email, setEmail, status, setStatus, message, error, setError, handleEmailSubmit } = useEmailForm();
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-50">
@@ -839,91 +827,31 @@ const StickyCtaBar = () => {
               </button>
             </div>
           </div>
-        ) : status === 'awaiting_consent' || (status === 'submitting' && isConsentChecked) ? (
-          <div className="w-full bg-white rounded-xl p-8 shadow-lg border border-slate-200">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                <Mail className="w-6 h-6 text-blue-600" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-slate-800 mb-2">Закрытое тестирование</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Сейчас мы закрыли доступ, чтобы подготовиться к следующей волне тестирования. Если вам интересно — оставьте почту, и мы напишем, как только снова откроем доступ.
-                </p>
-              </div>
-            </div>
-
-            <form onSubmit={handleEmailSubmit} className="space-y-6">
-              <div className="bg-slate-50 rounded-lg p-4 border-l-4 border-blue-500">
-                <div className="flex items-start gap-3">
-                  <input
-                    type="checkbox"
-                    id="consent"
-                    checked={isConsentChecked}
-                    onChange={e => setConsentChecked(e.target.checked)}
-                    className="mt-1 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2"
-                  />
-                  <label htmlFor="consent" className="text-slate-700 leading-relaxed cursor-pointer">
-                    Я согласен на{' '}
-                    <a
-                      href="/privacy-policy"
-                      className="text-blue-600 underline hover:text-blue-800 transition-colors font-medium"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      обработку персональных данных
-                    </a>
-                  </label>
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <div className="relative group">
-                  <button
-                    type="submit"
-                    disabled={!isConsentChecked || status === 'submitting'}
-                    className="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-blue-300 disabled:to-blue-400 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none disabled:shadow-md min-w-[200px]"
-                  >
-                    {status === 'submitting' ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        Отправка...
-                      </>
-                    ) : (
-                      <>
-                        <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                        Да, напишите мне
-                      </>
-                    )}
-                  </button>
-                  {!isConsentChecked && status !== 'submitting' && (
-                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-                      Необходимо согласие на обработку данных
-                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-800"></div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </form>
-          </div>
         ) : (
           <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-4 w-full items-start">
-            <div className="flex-grow relative w-full">
-              <label htmlFor="cta-email" className="sr-only">Email</label>
-              {error && <p className="text-red-600 text-sm absolute -top-6 left-0">{error}</p>}
-              <input
-                id="cta-email"
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (error) setError('');
-                }}
-                placeholder="Введите ваш email"
-                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent ${error ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-blue-500'}`}
-                required
-                disabled={status === 'submitting'}
-              />
+            <div className="flex-grow w-full">
+              <div className="relative">
+                <label htmlFor="cta-email" className="sr-only">Email</label>
+                {error && <p className="text-red-600 text-sm absolute -top-6 left-0">{error}</p>}
+                <input
+                  id="cta-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (error) setError('');
+                  }}
+                  placeholder="Введите ваш email"
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent ${error ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-blue-500'}`}
+                  required
+                  disabled={status === 'submitting'}
+                />
+              </div>
+              {email && (
+                <p className="text-xs text-slate-500 italic mt-2">
+                  Нажимая кнопку «Получить ранний доступ», я даю согласие на обработку персональных данных и подтверждаю свое ознакомление с <Link to="/privacy-policy" className="underline hover:text-slate-700">политикой конфиденциальности</Link>
+                </p>
+              )}
             </div>
             <button
               type="submit"
